@@ -2,13 +2,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from langchain_openai import ChatOpenAI
+from langchain_community.llms import Ollama
 
+llm = Ollama(model="llama3.1")
 
-llm = ChatOpenAI()
+res = llm.invoke("请给我的花店起个名字")
 
-
-res = llm.invoke("你是谁")
+#
+# from langchain_openai import ChatOpenAI
+#
+#
+# llm = ChatOpenAI()
+#
+#
+# res = llm.invoke("请给我的花店起个名字")
 
 print(res)
 

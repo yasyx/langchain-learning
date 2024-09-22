@@ -1,10 +1,11 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-from langchain_openai import OpenAI
+# from langchain_openai import OpenAI
+from  langchain_ollama import OllamaLLM
 
-llm = OpenAI(
-    model="gpt-3.5-turbo-instruct",
+llm = OllamaLLM(
+    model="llama3.1",
     temperature=0.8,
     max_tokens=60,
 )

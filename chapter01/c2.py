@@ -1,3 +1,4 @@
+import langchain_community
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -6,9 +7,9 @@ import  requests
 from PIL import Image
 from transformers import BlipProcessor ,BlipForConditionalGeneration
 from langchain.tools import BaseTool
-from  langchain_openai import OpenAI
-from  langchain.agents import initialize_agent, AgentType
-
+# from  langchain_openai import OpenAI
+from langchain_community.llms import Ollama
+from langchain.agents import initialize_agent, AgentType, create_react_agent
 
 #---- Part I 初始化图像字幕生成模型
 # 指定要使用的工具模型（HuggingFace中的image-caption模型）
@@ -20,8 +21,8 @@ model = BlipForConditionalGeneration.from_pretrained(hf_model)
 
 
 class ImageCapTool(BaseTool):
-    name = "Image captioner"
-    description = "为图片创作说明文案"
+    name: str = "Image captioner"
+    description: str = "为图片创作说明文案"
 
     def _run(self,url: str):
         # 下载图像并将其转换为PIL对象
@@ -39,11 +40,11 @@ class ImageCapTool(BaseTool):
         raise NotImplementedError("This tool does not support async")
 
 
-llm = OpenAI(temperature=0.2)
+llm = Ollama(temperature=0.2,model= "llama3.1")
 
 
 tools = [ImageCapTool()]
-agent = initialize_agent(
+agent = create_react_agent(
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     tools=tools,
     llm=llm,

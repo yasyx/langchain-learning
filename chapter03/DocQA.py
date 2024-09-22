@@ -2,9 +2,8 @@ import os
 
 from dotenv import load_dotenv
 from langchain_community.vectorstores import Qdrant
-from langchain_openai import OpenAIEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from sympy.physics.units import temperature
 
 load_dotenv()
 
@@ -37,7 +36,7 @@ chunked_documents = text_spliter.split_documents(documents)
 
 vector_store = Qdrant.from_documents(
     documents=chunked_documents,
-    embedding=OpenAIEmbeddings(),
+    embedding=OllamaEmbeddings(model="llama3.1"),
     location=":memory:",
     collection_name="my_documents"
 )
@@ -45,7 +44,7 @@ vector_store = Qdrant.from_documents(
 # 4 准备模型 和Retrieval链
 
 import logging
-from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain.chains import RetrievalQA
 
@@ -53,7 +52,8 @@ from langchain.chains import RetrievalQA
 logging.basicConfig()
 logging.getLogger("langchain.retrievers.muti_query").setLevel(logging.INFO)
 
-chat = ChatOpenAI(
+chat = ChatOllama(
+    model="llama3.1",
     temperature=0,
 )
 

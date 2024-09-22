@@ -2,9 +2,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 
-chat = ChatOpenAI(
+from langchain_ollama import ChatOllama
+
+chat = ChatOllama(
     model="gpt-3.5-turbo",
     temperature=0.8,
     max_tokens=60
@@ -13,10 +15,10 @@ chat = ChatOpenAI(
 from langchain.schema import HumanMessage, SystemMessage
 
 messages = [
-    SystemMessage(content="You are a helpful assistant that translates English to French."),
-    HumanMessage(content="I love programming.")
+    SystemMessage(content="You are a helpful assistant."),
+    HumanMessage(content="Why is the sky blue?")
 ]
 
-res = chat(messages)
+res = chat.invoke(messages)
 
 print(res)

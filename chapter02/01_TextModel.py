@@ -12,7 +12,7 @@ client = OpenAI(
 )
 
 res = client.completions.create(
-    model="gpt-3.5-turbo-instruct",
+    model="llama3.1",
     temperature=0.5,
     max_tokens=100,
     prompt="请给我的花店起个名字，用中文回复我"
